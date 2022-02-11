@@ -36,7 +36,7 @@ public class SeleniumService {
 
 
     public void goToCopart(String url, String lotType, String auctionType) throws Exception {
-        System.setProperty("webdriver.chrome.driver", "./bin/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "/bin/chromedriver.exe");
         driver = new ChromeDriver();
         Dimension windowMinSize = new Dimension(500,500);
         driver.manage().window().setSize(windowMinSize);
@@ -53,7 +53,7 @@ public class SeleniumService {
     }
 
     public void goToiaai(String motor, String url, String lotType, String auctionType) throws Exception {
-        System.setProperty("webdriver.chrome.driver", "./bin/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "/bin/chromedriver.exe");
         driver = new ChromeDriver();
         Dimension windowMinSize = new Dimension(500,500);
         driver.manage().window().setSize(windowMinSize);
