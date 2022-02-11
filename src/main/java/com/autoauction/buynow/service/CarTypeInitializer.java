@@ -27,7 +27,7 @@ public class CarTypeInitializer {
         Initializer.loadData(dataSource);
     }
 
-//    @Scheduled(fixedRate = 900000)
+    @Scheduled(fixedRate = 900000)
     public void initCar() {
         List<CarTypeModel> all = carTypeRepository.findAll();
         all.forEach(carTypeModel -> {
