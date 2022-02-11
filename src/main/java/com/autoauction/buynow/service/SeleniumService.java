@@ -11,6 +11,7 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,9 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class SeleniumService {
+
+
+
     public WebDriver driver;
     @Autowired
     LotRepository lotRepository;
@@ -36,8 +40,16 @@ public class SeleniumService {
 
 
     public void goToCopart(String url, String lotType, String auctionType) throws Exception {
+        ChromeOptions options = new ChromeOptions();
+        options.setBinary("/app/.apt/usr/bin/google-chrome");
+        options.addArguments("--enable-javascript");
+        options.addArguments("--headless");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--no-sandbox");
+
+
         System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
-        driver = new ChromeDriver();
+        driver = new ChromeDriver(options);
         Dimension windowMinSize = new Dimension(500,500);
         driver.manage().window().setSize(windowMinSize);
         driver.get(url);
@@ -53,6 +65,13 @@ public class SeleniumService {
     }
 //
     public void goToiaai(String motor, String url, String lotType, String auctionType) throws Exception {
+        ChromeOptions options = new ChromeOptions();
+        options.setBinary("/app/.apt/usr/bin/google-chrome");
+        options.addArguments("--enable-javascript");
+        options.addArguments("--headless");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--no-sandbox");
+
         System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
         driver = new ChromeDriver();
         Dimension windowMinSize = new Dimension(500,500);
