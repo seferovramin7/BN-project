@@ -5,20 +5,21 @@ import com.autoauction.buynow.repository.CarTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("api")
 public class InfoController {
+
 
     @Autowired
     CarTypeRepository carTypeRepository;
 
-    @GetMapping("/alive{id}")
-    public String getDBAlive(@PathVariable Long id){
+    @GetMapping(value = "/alive/{id}")
+    public String getBook(@PathVariable Long id) {
         CarTypeModel byId = carTypeRepository.getById(id);
-        String carType = byId.getCarType();
-        System.out.println(carType);
-        return carType;
+        return byId.getCarType();
     }
 
 }
