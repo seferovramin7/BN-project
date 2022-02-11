@@ -53,7 +53,7 @@ public class SeleniumService {
         }
         driver.quit();
     }
-////
+/////
     public void goToiaai(String motor, String url, String lotType, String auctionType) throws Exception {
         System.setProperty("webdriver.chrome.driver", "phantomjs.exe");
         driver = new PhantomJSDriver();
