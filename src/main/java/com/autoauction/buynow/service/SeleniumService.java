@@ -51,7 +51,7 @@ public class SeleniumService {
         }
         driver.quit();
     }
-
+//
     public void goToiaai(String motor, String url, String lotType, String auctionType) throws Exception {
         System.setProperty("webdriver.chrome.driver", "/bin/chromedriver.exe");
         driver = new ChromeDriver();
