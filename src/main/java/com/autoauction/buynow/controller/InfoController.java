@@ -30,8 +30,8 @@ public class InfoController {
     @GetMapping(value = "/alive")
     public String getAlive() throws URISyntaxException {
         RestTemplate restTemplate = new RestTemplate();
-        System.setProperty("https.proxyHost", "10.0.3.18");
-        System.setProperty("https.proxyPort", "3128");
+//        System.setProperty("https.proxyHost", "10.0.3.18");
+//        System.setProperty("https.proxyPort", "3128");
         String baseUrl = "https://api.telegram.org/bot5297651309:AAGpziE4Q27UrK77k51FwDkDZ_h7kdbheg0/sendMessage?chat_id=-1001733208631&text=" + "yaşıyıram relax";
         URI uri = new URI(baseUrl);
         ResponseEntity<String> result = restTemplate.postForEntity(uri, null, String.class);
