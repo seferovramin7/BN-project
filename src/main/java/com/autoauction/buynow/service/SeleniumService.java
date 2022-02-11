@@ -11,7 +11,6 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -24,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class SeleniumService {
+    public WebDriver driver;
     @Autowired
     LotRepository lotRepository;
     @Autowired
@@ -34,12 +34,10 @@ public class SeleniumService {
 
     Boolean color = true;
 
-    public WebDriver driver;
-
 
     public void goToCopart(String url, String lotType, String auctionType) throws Exception {
-        System.setProperty("webdriver.chrome.driver", "phantomjs.exe");
-        driver = new PhantomJSDriver();
+        System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+        driver = new ChromeDriver();
         Dimension windowMinSize = new Dimension(500,500);
         driver.manage().window().setSize(windowMinSize);
         driver.get(url);
@@ -53,10 +51,10 @@ public class SeleniumService {
         }
         driver.quit();
     }
-//////
+//
     public void goToiaai(String motor, String url, String lotType, String auctionType) throws Exception {
-        System.setProperty("webdriver.chrome.driver", "phantomjs.exe");
-        driver = new PhantomJSDriver();
+        System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+        driver = new ChromeDriver();
         Dimension windowMinSize = new Dimension(500,500);
         driver.manage().window().setSize(windowMinSize);
         driver.get(url);
