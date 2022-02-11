@@ -175,8 +175,8 @@ public class SeleniumService {
             emoji = "\uD83C\uDF4E";
         }
 
-        System.setProperty("https.proxyHost", "10.0.3.18");
-        System.setProperty("https.proxyPort", "3128");
+//        System.setProperty("https.proxyHost", "10.0.3.18");
+//        System.setProperty("https.proxyPort", "3128");
         RestTemplate restTemplate = new RestTemplate();
 
         String baseUrl = "";
