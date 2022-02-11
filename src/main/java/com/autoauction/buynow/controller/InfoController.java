@@ -17,9 +17,14 @@ public class InfoController {
     CarTypeRepository carTypeRepository;
 
     @GetMapping(value = "/alive/{id}")
-    public String getBook(@PathVariable Long id) {
+    public String getAliveId(@PathVariable Long id) {
         CarTypeModel byId = carTypeRepository.getById(id);
         return byId.getCarType();
+    }
+
+    @GetMapping(value = "/alive")
+    public String getAlive() {
+        return "Alive";
     }
 
 }
