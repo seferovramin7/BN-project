@@ -176,7 +176,7 @@ public class SeleniumService {
         }
 
 //        System.setProperty("https.proxyHost", "10.0.3.18");
-//        System.setProperty("https.proxyPort", "3128");
+///        System.setProperty("https.proxyPort", "3128");
         RestTemplate restTemplate = new RestTemplate();
 
         String baseUrl = "";
