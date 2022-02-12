@@ -11,6 +11,7 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,10 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class SeleniumService {
     public WebDriver driver;
+
+    ChromeOptions options = new ChromeOptions();
+
+
     @Autowired
     LotRepository lotRepository;
     @Autowired
@@ -37,8 +42,13 @@ public class SeleniumService {
 
 
     public void goToCopart(String url, String lotType, String auctionType) throws Exception {
+        options.addArguments("--headless");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--remote-debugging-port=9222");
+
         System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
-        driver = new ChromeDriver();
+        driver = new ChromeDriver(options);
         Dimension windowMinSize = new Dimension(500,500);
         driver.manage().window().setSize(windowMinSize);
         driver.get(url);
@@ -54,8 +64,13 @@ public class SeleniumService {
     }
 ///
     public void goToiaai(String motor, String url, String lotType, String auctionType) throws Exception {
+        options.addArguments("--headless");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--remote-debugging-port=9222");
+
         System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
-        driver = new ChromeDriver();
+        driver = new ChromeDriver(options);
         Dimension windowMinSize = new Dimension(500,500);
         driver.manage().window().setSize(windowMinSize);
         driver.get(url);
