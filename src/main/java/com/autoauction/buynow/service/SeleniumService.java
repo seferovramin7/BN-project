@@ -62,7 +62,7 @@ public class SeleniumService {
         }
         driver.quit();
     }
-////
+//////
     public void goToiaai(String motor, String url, String lotType, String auctionType) throws Exception {
         options.addArguments("--headless");
         options.addArguments("--disable-gpu");
