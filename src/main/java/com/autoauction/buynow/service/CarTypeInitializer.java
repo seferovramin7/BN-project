@@ -22,7 +22,8 @@ public class CarTypeInitializer {
     @Autowired
     private DataSource dataSource;
 
-//    @Scheduled(fixedRate = 999999999)
+    @Scheduled(fixedRate = 999999999)
+//    @Scheduled(cron = "0 15 13 12 2 ? 2022")
     public void initData() throws Exception {
         Initializer.loadData(dataSource);
     }
