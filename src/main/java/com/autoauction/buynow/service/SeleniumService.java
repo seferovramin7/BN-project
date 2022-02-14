@@ -12,7 +12,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -42,12 +41,12 @@ public class SeleniumService {
 
 
     public void goToCopart(String url, String lotType, String auctionType) throws Exception {
+        options.setBinary(System.getenv("GOOGLE_CHROME_BIN"));
         options.addArguments("--headless");
-        options.addArguments("--disable-gpu");
+        options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--no-sandbox");
-        options.addArguments("--remote-debugging-port=9222");
 
-        System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", System.getenv("CHROMEDRIVER_PATH"));
         driver = new ChromeDriver(options);
         Dimension windowMinSize = new Dimension(500,500);
         driver.manage().window().setSize(windowMinSize);
@@ -62,14 +61,14 @@ public class SeleniumService {
         }
         driver.quit();
     }
-//////
+//
     public void goToiaai(String motor, String url, String lotType, String auctionType) throws Exception {
+        options.setBinary(System.getenv("GOOGLE_CHROME_BIN"));
         options.addArguments("--headless");
-        options.addArguments("--disable-gpu");
+        options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--no-sandbox");
-        options.addArguments("--remote-debugging-port=9222");
 
-        System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", System.getenv("CHROMEDRIVER_PATH"));
         driver = new ChromeDriver(options);
         Dimension windowMinSize = new Dimension(500,500);
         driver.manage().window().setSize(windowMinSize);
@@ -191,8 +190,8 @@ public class SeleniumService {
             emoji = "\uD83C\uDF4E";
         }
 
-///        System.setProperty("https.proxyHost", "10.0.3.18");
-///        System.setProperty("https.proxyPort", "3128");
+        System.setProperty("https.proxyHost", "10.0.3.18");
+        System.setProperty("https.proxyPort", "3128");
         RestTemplate restTemplate = new RestTemplate();
 
         String baseUrl = "";
