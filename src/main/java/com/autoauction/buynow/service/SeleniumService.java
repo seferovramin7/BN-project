@@ -6,10 +6,7 @@ import com.autoauction.buynow.model.IaaiTransportation;
 import com.autoauction.buynow.repository.CopartRepository;
 import com.autoauction.buynow.repository.IaaiRepository;
 import com.autoauction.buynow.repository.LotRepository;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +22,6 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class SeleniumService {
     public WebDriver driver;
-
-    ChromeOptions options = new ChromeOptions();
-
-
     @Autowired
     LotRepository lotRepository;
     @Autowired
@@ -36,40 +29,56 @@ public class SeleniumService {
 
     @Autowired
     IaaiRepository iaaiRepository;
+    ChromeOptions options;
+
 
     Boolean color = true;
 
 
     public void goToCopart(String url, String lotType, String auctionType) throws Exception {
+        options = new ChromeOptions();
         options.setBinary(System.getenv("GOOGLE_CHROME_BIN"));
         options.addArguments("--headless");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--no-sandbox");
 
         System.setProperty("webdriver.chrome.driver", System.getenv("CHROMEDRIVER_PATH"));
+
         driver = new ChromeDriver(options);
+//        System.setProperty("webdriver.chrome.driver", "./bin/chromedriver.exe");
+//        driver = new ChromeDriver();
         Dimension windowMinSize = new Dimension(500,500);
         driver.manage().window().setSize(windowMinSize);
         driver.get(url);
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        driver.findElement(By.xpath("//*[@id=\"joyride-step-WELCOME\"]/div/div[2]/tour-header/div/span\n")).click();
-        collectCopartData(lotType, auctionType);
-        WebElement isNextButtonEnabled = driver.findElement(By.xpath("//*[@id=\"mainBody\"]/div[2]/div[3]/div/app-root/lot-search-results/search-results/div/div[2]/div[2]/search-table-component/copart-table/div/p-table/div/p-paginator/div/button[3]\n"));
-        if (isNextButtonEnabled.isEnabled()) {
-            driver.findElement(By.xpath("//*[@id=\"mainBody\"]/div[2]/div[3]/div/app-root/lot-search-results/search-results/div/div[2]/div[2]/search-table-component/copart-table/div/p-table/div/p-paginator/div/button[3]\n")).click();
+
+        try{
+            driver.findElement(By.xpath("//*[@id=\"joyride-step-WELCOME\"]/div/div[2]/tour-header/div/span\n")).click();
             collectCopartData(lotType, auctionType);
+            WebElement isNextButtonEnabled = driver.findElement(By.xpath("//*[@id=\"mainBody\"]/div[2]/div[3]/div/app-root/lot-search-results/search-results/div/div[2]/div[2]/search-table-component/copart-table/div/p-table/div/p-paginator/div/button[3]\n"));
+            if (isNextButtonEnabled.isEnabled()) {
+                driver.findElement(By.xpath("//*[@id=\"mainBody\"]/div[2]/div[3]/div/app-root/lot-search-results/search-results/div/div[2]/div[2]/search-table-component/copart-table/div/p-table/div/p-paginator/div/button[3]\n")).click();
+                collectCopartData(lotType, auctionType);
+            }
+            driver.quit();
+        }catch (NoSuchElementException e){
+            System.out.println("Vehicle not found");
+            driver.quit();
         }
-        driver.quit();
     }
-//
     public void goToiaai(String motor, String url, String lotType, String auctionType) throws Exception {
+        options = new ChromeOptions();
         options.setBinary(System.getenv("GOOGLE_CHROME_BIN"));
         options.addArguments("--headless");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--no-sandbox");
 
         System.setProperty("webdriver.chrome.driver", System.getenv("CHROMEDRIVER_PATH"));
+
         driver = new ChromeDriver(options);
+
+//        System.setProperty("webdriver.chrome.driver", "./bin/chromedriver.exe");
+//        driver = new ChromeDriver();
         Dimension windowMinSize = new Dimension(500,500);
         driver.manage().window().setSize(windowMinSize);
         driver.get(url);
@@ -124,36 +133,41 @@ public class SeleniumService {
         String result = "";
         int intSize = Integer.parseInt(size);
         for (int i = 1; i <= intSize; i++) {
-            String lot = driver.findElement(By.xpath("/html/body/section/main/main/section[3]/div/div/div[2]/div[1]/div[2]/div[3]/div[2]/div[" + i + "]/div/div[3]/div[1]/h4/a")).getAttribute("href");
-            lot = lot.substring(8, lot.length()).split("\\?")[0].split("\\/")[2];
+            try{
+                String lot = driver.findElement(By.xpath("/html/body/section/main/main/section[3]/div/div/div[2]/div[1]/div[2]/div[3]/div[2]/div[" + i + "]/div/div[3]/div[1]/h4/a")).getAttribute("href");
+                lot = lot.substring(8, lot.length()).split("\\?")[0].split("\\/")[2];
 
-            String location = driver.findElement(By.xpath("/html/body/section/main/main/section[3]/div/div/div[2]/div[1]/div[2]/div[3]/div[2]/div[" + i + "]/div/div[3]/div[2]/div[4]/ul/li[1]/span/a")).getText();
-            location = location.split("\\(")[0].replaceAll("\\s+$", "").replaceAll("-", " ").toUpperCase();
+                String location = driver.findElement(By.xpath("/html/body/section/main/main/section[3]/div/div/div[2]/div[1]/div[2]/div[3]/div[2]/div[" + i + "]/div/div[3]/div[2]/div[4]/ul/li[1]/span/a")).getText();
+                location = location.split("\\(")[0].replaceAll("\\s+$", "").replaceAll("-", " ").toUpperCase();
 
-            String bnPrice = driver.findElement(By.xpath("/html/body/section/main/main/section[3]/div/div/div[2]/div[1]/div[2]/div[3]/div[2]/div[" + i + "]/div/div[3]/div[2]/div[5]/ul/li[3]/span")).getText();
-            bnPrice = bnPrice.substring(9, bnPrice.length()).replaceAll("\\,", "").replaceAll("\\.", "");
-            int priceInt = Integer.parseInt(bnPrice);
+                String bnPrice = driver.findElement(By.xpath("/html/body/section/main/main/section[3]/div/div/div[2]/div[1]/div[2]/div[3]/div[2]/div[" + i + "]/div/div[3]/div[2]/div[5]/ul/li[3]/span")).getText();
+                bnPrice = bnPrice.substring(9, bnPrice.length()).replaceAll("\\,", "").replaceAll("\\.", "");
+                int priceInt = Integer.parseInt(bnPrice);
 
-            String motorFromIaai = driver.findElement(By.xpath("//*[@id=\"ListingGrid\"]/div[3]/div[2]/div["+i+"]/div/div[3]/div[2]/div[3]/ul/li[1]/span")).getText();
-            Boolean ifMotorMeets = iaaiMotorChecker(motorFromIaai, motor);
+                String motorFromIaai = driver.findElement(By.xpath("//*[@id=\"ListingGrid\"]/div[3]/div[2]/div["+i+"]/div/div[3]/div[2]/div[3]/ul/li[1]/span")).getText();
+                Boolean ifMotorMeets = iaaiMotorChecker(motorFromIaai, motor);
 
-            IaaiTransportation globalTransport = iaaiRepository.findByOriginAndLocationIgnoreCase("Global", location);
-            int transportPrice = 0;
-            int totalPrice = 0;
-            if (globalTransport != null) {
-                int price = Integer.parseInt(globalTransport.getPrice());
-                transportPrice = price;
-                totalPrice = priceInt + price;
+                IaaiTransportation globalTransport = iaaiRepository.findByOriginAndLocationIgnoreCase("Global", location);
+                int transportPrice = 0;
+                int totalPrice = 0;
+                if (globalTransport != null) {
+                    int price = Integer.parseInt(globalTransport.getPrice());
+                    transportPrice = price;
+                    totalPrice = priceInt + price;
+                }
+
+                BnArchive bnArchive = BnArchive.builder().buyNow(priceInt).lot(lot).auctionType(auctionType).build();
+                String telegramMessage = createTelegramMessage(bnArchive, location, carType, transportPrice, totalPrice);
+
+                if (!retrieveIfExists(lot, priceInt) && ifMotorMeets) {
+                    lotRepository.save(bnArchive);
+                    sendMessage(telegramMessage, auctionType);
+                    System.out.println("Telegram Message : \n" + telegramMessage);
+                }
+            }catch (NoSuchElementException e){
+                System.out.println("Vehicle Not Found");
             }
 
-            BnArchive bnArchive = BnArchive.builder().buyNow(priceInt).lot(lot).auctionType(auctionType).build();
-            String telegramMessage = createTelegramMessage(bnArchive, location, carType, transportPrice, totalPrice);
-
-            if (!retrieveIfExists(lot, priceInt) && ifMotorMeets) {
-                lotRepository.save(bnArchive);
-                sendMessage(telegramMessage, auctionType);
-                System.out.println("Telegram Message : \n" + telegramMessage);
-            }
         }
         return result;
     }
@@ -190,8 +204,8 @@ public class SeleniumService {
             emoji = "\uD83C\uDF4E";
         }
 
-        System.setProperty("https.proxyHost", "10.0.3.18");
-        System.setProperty("https.proxyPort", "3128");
+//        System.setProperty("https.proxyHost", "10.0.3.18");
+//        System.setProperty("https.proxyPort", "3128");
         RestTemplate restTemplate = new RestTemplate();
 
         String baseUrl = "";
