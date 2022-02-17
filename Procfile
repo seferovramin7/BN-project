@@ -1,1 +1,1 @@
-web: java -Xmx100m -jar target/*.jar
+web: java -Xmx50m -jar target/*.jar
