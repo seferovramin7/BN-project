@@ -8,6 +8,7 @@ INSERT INTO IAAI_TRANSPORTATION (price, location, origin) VALUES ( 1195, 'ABILEN
 -- -- #IAAI
 -- INSERT INTO CAR_TYPE_MODEL (HANDLER, CAR_TYPE, AUCTION_TYPE)VALUES('https://iaai.com/Search?url=HW71da7a7EOCdW2N59%2b0PBk%2b66hkBlBLPW2jmZvEXPA%3d', 'Prius20', 'iaai' )
 --
+--
 
 
 
